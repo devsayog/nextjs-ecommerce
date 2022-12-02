@@ -2,9 +2,12 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { signOut, useSession } from 'next-auth/react'
+import { useState } from 'react'
 import { AiOutlineMenu, AiOutlineShoppingCart } from 'react-icons/ai'
 import { FaShopify } from 'react-icons/fa'
 
+import { AuthDialog } from '@/components/auth/AuthDialog'
+import { SignupForm } from '@/components/auth/SignupForm'
 import { ROLES } from '@/types/enum'
 
 import { Account } from './Account'
@@ -14,6 +17,8 @@ export function Navbar() {
   const { data: session, status } = useSession()
   const user = session?.user
   const loadingUser = status === 'loading'
+  const [isSignInModalOpen, setSignInModalOpen] = useState(false)
+  const [showSignIn, setShowSignIn] = useState(false)
   function isAdmin() {
     return user?.role !== ROLES.USER
   }
@@ -48,8 +53,14 @@ export function Navbar() {
           <ul className="flex items-center gap-1 md:gap-2 2xl:gap-4">
             <li>
               <Account>
-                {loadingUser ? null : !user ? (
-                  <button className="primaryBtn" type="button">
+                {loadingUser ? (
+                  <p>Loading...</p>
+                ) : !user ? (
+                  <button
+                    onClick={() => setSignInModalOpen(true)}
+                    className="primaryBtn"
+                    type="button"
+                  >
                     Sign in
                   </button>
                 ) : (
@@ -91,6 +102,24 @@ export function Navbar() {
           </ul>
         </nav>
       </header>
+      <AuthDialog
+        open={isSignInModalOpen}
+        handleClose={() => setSignInModalOpen(false)}
+        heading={showSignIn ? 'Welcome back!' : 'Create your account'}
+      >
+        {!showSignIn ? (
+          <p className="mt-2 text-center text-base text-gray-500 dark:text-gray-400">
+            Please create an account to shop online with us.
+          </p>
+        ) : null}
+        <div className="mt-8 space-y-4">
+          <SignupForm
+            handleSetSignIn={(b: boolean) => setShowSignIn(b)}
+            showSignIn={showSignIn}
+            handleClose={() => setSignInModalOpen(false)}
+          />
+        </div>
+      </AuthDialog>
     </>
   )
 }
