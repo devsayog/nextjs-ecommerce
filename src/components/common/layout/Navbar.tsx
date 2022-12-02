@@ -8,6 +8,7 @@ import { FaShopify } from 'react-icons/fa'
 import { ROLES } from '@/types/enum'
 
 import { Account } from './Account'
+import { ModeToggle } from './ModeToggle'
 
 export function Navbar() {
   const { data: session, status } = useSession()
@@ -85,9 +86,7 @@ export function Navbar() {
               </button>
             </li>
             <li>
-              <button type="button">
-                <p>THEME</p>
-              </button>
+              <ModeToggle />
             </li>
           </ul>
         </nav>
