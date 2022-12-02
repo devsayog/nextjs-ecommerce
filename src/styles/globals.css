@@ -6,4 +6,10 @@
   .background {
     @apply bg-white dark:bg-black text-black dark:text-white;
   }
+  .navIcons {
+    @apply rounded-full p-1 hover:text-gray-900/50 dark:hover:text-gray-200 focus:outline-none focus-visible:ring-2 dark:focus-visible:ring-white/75 focus-visible:ring-black/75;
+  }
+  .primaryBtn {
+    @apply w-full rounded-md bg-rose-600 py-2  text-white transition hover:bg-rose-500 focus:outline-none focus:ring-4 focus:ring-rose-600/50 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-rose-600 dark:bg-rose-400 dark:hover:bg-rose-300 dark:focus:ring-rose-300/50;
+  }
 }
