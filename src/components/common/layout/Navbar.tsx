@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import { signOut, useSession } from 'next-auth/react'
 import { Fragment, useState } from 'react'
 import {
-  AiOutlineClose,
+  AiFillCloseCircle,
   AiOutlineMenu,
   AiOutlineShoppingCart,
 } from 'react-icons/ai'
@@ -17,8 +17,10 @@ import { AuthDialog } from '@/components/auth/AuthDialog'
 import { SignupForm } from '@/components/auth/SignupForm'
 import { ROLES } from '@/types/enum'
 import { classNames } from '@/utils/classNames'
+import { generateKey } from '@/utils/generateKey'
 
 import { Account } from './Account'
+import { AdminDrawer } from './AdminDrawer'
 import { ModeToggle } from './ModeToggle'
 
 export function Navbar() {
@@ -26,8 +28,12 @@ export function Navbar() {
   const user = session?.user
   const loadingUser = status === 'loading'
   const [isSignInModalOpen, setSignInModalOpen] = useState(false)
+  const [isAdminDrawerOpen, setAdminDrawerOpen] = useState(false)
   const [showSignIn, setShowSignIn] = useState(false)
   const [open, setOpen] = useState(false)
+  function closeAdminDrawer() {
+    setAdminDrawerOpen(false)
+  }
   function isAdmin() {
     return user?.role !== ROLES.USER
   }
@@ -63,11 +69,14 @@ export function Navbar() {
                 <div className="flex px-4 pt-5 pb-2">
                   <button
                     type="button"
-                    className="-m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400"
                     onClick={() => setOpen(false)}
+                    className="navIcons rounded-full transition-transform hover:scale-105"
                   >
-                    <span className="sr-only">Close menu</span>
-                    <AiOutlineClose className="h-6 w-6" aria-hidden="true" />
+                    <AiFillCloseCircle
+                      className="rounded-full bg-white text-4xl text-red-600 dark:bg-slate-900 dark:text-red-300"
+                      aria-hidden="true"
+                    />
+                    <span className="sr-only">close menu</span>
                   </button>
                 </div>
 
@@ -77,7 +86,7 @@ export function Navbar() {
                     <Tab.List className="-mb-px flex space-x-8 px-4">
                       {navigation.categories.map((category) => (
                         <Tab
-                          key={category.name}
+                          key={generateKey()}
                           className={({ selected }) =>
                             classNames(
                               selected
@@ -96,13 +105,13 @@ export function Navbar() {
                   <Tab.Panels as={Fragment}>
                     {navigation.categories.map((category) => (
                       <Tab.Panel
-                        key={category.name}
+                        key={generateKey()}
                         className="space-y-10 px-4 pt-10 pb-8"
                       >
                         <div className="grid grid-cols-2 gap-x-4">
                           {category.featured.map((item) => (
                             <div
-                              key={item.name}
+                              key={generateKey()}
                               className="group relative text-sm"
                             >
                               <div className="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
@@ -132,7 +141,7 @@ export function Navbar() {
                           ))}
                         </div>
                         {category.sections.map((section) => (
-                          <div key={section.name}>
+                          <div key={generateKey()}>
                             <p
                               id={`${category.name}-${section.name}-heading-mobile`}
                               className="font-medium capitalize text-gray-900 dark:text-gray-200"
@@ -145,7 +154,7 @@ export function Navbar() {
                               className="mt-6 flex flex-col space-y-6"
                             >
                               {section.items.map((item) => (
-                                <li key={item.name} className="flow-root">
+                                <li key={generateKey()} className="flow-root">
                                   <Link
                                     href={item.href}
                                     className="-m-2 block p-2 transition  hover:text-indigo-800 dark:hover:text-indigo-400"
@@ -172,7 +181,11 @@ export function Navbar() {
           <div className="flex items-center gap-2 md:gap-4">
             {/* FOR ADMIN HAMBURGER MENU */}
             {isAdmin() && router.asPath.includes('dashboard') && (
-              <button type="button">
+              <button
+                type="button"
+                className="navIcons"
+                onClick={() => setAdminDrawerOpen(true)}
+              >
                 <div className="sr-only">open admin menu</div>
                 <AiOutlineMenu aria-hidden="true" className="h-6 w-6" />
               </button>
@@ -202,7 +215,7 @@ export function Navbar() {
           <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
             <div className="flex h-full space-x-8">
               {navigation.categories.map((category) => (
-                <Popover key={category.name} className="flex">
+                <Popover key={generateKey()} className="flex">
                   {({ open }) => (
                     <>
                       <div className="relative flex">
@@ -239,7 +252,7 @@ export function Navbar() {
                                 <div className="col-start-2 grid grid-cols-2 gap-x-8">
                                   {category.featured.map((item) => (
                                     <div
-                                      key={item.name}
+                                      key={generateKey()}
                                       className="group relative text-base sm:text-sm"
                                     >
                                       <div className="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
@@ -270,7 +283,7 @@ export function Navbar() {
                                 </div>
                                 <div className="row-start-1 grid grid-cols-3 gap-y-10 gap-x-8 text-sm">
                                   {category.sections.map((section) => (
-                                    <div key={section.name}>
+                                    <div key={generateKey()}>
                                       <p
                                         id={`${section.name}-heading`}
                                         className="text-base font-medium capitalize text-gray-900 dark:text-gray-100"
@@ -283,7 +296,10 @@ export function Navbar() {
                                         className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
                                       >
                                         {section.items.map((item) => (
-                                          <li key={item.name} className="flex">
+                                          <li
+                                            key={generateKey()}
+                                            className="flex"
+                                          >
                                             <Link
                                               href={item.href}
                                               className="inline-block transition hover:text-indigo-800 dark:hover:text-indigo-400"
@@ -378,6 +394,10 @@ export function Navbar() {
           />
         </div>
       </AuthDialog>
+      <AdminDrawer
+        open={isAdminDrawerOpen}
+        handleChangeDrawer={closeAdminDrawer}
+      />
     </>
   )
 }
