@@ -1,5 +1,9 @@
 name: MAIN
 on: push
+env: |
+  NEXT_PUBLIC_CLOUDINARY_KEY= ${{ secrets.NEXT_PUBLIC_CLOUDINARY_KEY }}
+   NEXT_PUBLIC_CLOUD_NAME= ${{ secrets.NEXT_PUBLIC_CLOUD_NAME }}
+   NEXT_PUBLIC_PRESET= ${{ secrets.NEXT_PUBLIC_PRESET }}
 jobs:
   lint:
     runs-on: ubuntu-latest
