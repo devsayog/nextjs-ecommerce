@@ -15,4 +15,35 @@
   .input {
     @apply w-full shadow-sm rounded-md py-2 pl-4 truncate border focus:outline-none focus:ring-4 focus:ring-opacity-30 transition disabled:opacity-50 disabled:cursor-not-allowed dark:bg-transparent dark:text-gray-300;
   }
+  .heading1 {
+    @apply text-xl font-medium tracking-wider md:text-2xl xl:text-3xl capitalize;
+  }
+  .section {
+    @apply px-2 py-8 sm:py-6 md:px-4 xl:px-6 lg:py-10 2xl:py-12;
+  }
+}
+
+.quillContainer {
+  @apply border border-gray-300 dark:border-gray-800 rounded-lg flex flex-col overflow-hidden h-96;
+}
+.quillContainer .quill {
+  @apply flex flex-1 flex-col overflow-hidden;
+}
+.quillContainer .ql-snow.ql-toolbar {
+  @apply border-0 border-b border-b-gray-300  dark:border-gray-800;
+}
+.quillContainer .ql-snow.ql-toolbar .ql-picker {
+  @apply dark:text-gray-300  text-gray-800;
+}
+.quillContainer .ql-snow.ql-toolbar .ql-picker-options {
+  @apply dark:bg-slate-800 bg-gray-100 border-0 rounded-lg shadow-md p-4;
+}
+.quillContainer .ql-snow.ql-container .ql-editor {
+  @apply p-4 flex-1 text-base h-full overflow-y-auto text-gray-800 dark:text-gray-300;
+}
+.quillContainer .ql-container.ql-snow {
+  @apply border-0;
+}
+.quillContainer .ql-snow .ql-stroke {
+  @apply stroke-gray-800 dark:stroke-gray-300;
 }

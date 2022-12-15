@@ -7,7 +7,7 @@ function generateSlug(name: string) {
 export type Category = 'men' | 'women' | 'kids'
 export const category: Category[] = ['men', 'women', 'kids']
 export type Section = 'clothing' | 'shoes' | 'accessories'
-export const sec: Section[] = ['clothing', 'shoes', 'accessories']
+export const section: Section[] = ['clothing', 'shoes', 'accessories']
 export type WomenClothing =
   | 'Dresses'
   | 'Tops'
@@ -18,7 +18,6 @@ export type WomenClothing =
   | 'Jackets'
   | 'Activewear'
 export type MenClothing =
-  | 'Dresses'
   | 'Tops'
   | 'T-Shirts'
   | 'Pants'
@@ -28,7 +27,6 @@ export type MenClothing =
   | 'Activewear'
 
 export const menClothing: MenClothing[] = [
-  'Dresses',
   'Tops',
   'T-Shirts',
   'Pants',
@@ -161,11 +159,24 @@ export const womenShoes: WomenShoes[] = [
   'Heels',
   'Socks',
 ]
+const arr = [
+  ...womenClothing,
+  ...menClothing,
+  ...kidsClothing,
+  ...womenShoes,
+  ...menShoes,
+  ...kidsShoes,
+  ...womenAccessories,
+  ...menAccessories,
+  ...kidsAccessories,
+]
+export const subSection = Array.from(new Set(arr))
+
 type Items<T> = {
   name: T
   href: string
 }
-type SectionType<T, K, U> =
+export type SectionType<T, K, U> =
   | {
       name: Section
       items: Items<T>[]
@@ -193,6 +204,12 @@ type KidsCategory = {
   name: Category
   featured: { name: string; href: string; imageSrc: string; imageAlt: string }[]
   sections: SectionType<KidsClothing, KidsShoes, KidsAccessories>[]
+}
+export const lll = {
+  men: {
+    clothing: menClothing,
+  },
+  women: {},
 }
 export const womenCategory: WomenCategory = {
   name: 'women',

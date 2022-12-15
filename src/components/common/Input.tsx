@@ -27,7 +27,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
           'input',
           invalid
             ? 'border-red-400 text-red-800 dark:text-red-400 focus:border-red-400/50 focus:ring-red-400/50'
-            : 'border-gray-300 focus:border-gray-400 focus:ring-gray-400'
+            : 'border-indigo-200 dark:border-indigo-700 focus:border-indigo-400'
         )}
         id={label}
         type={type}

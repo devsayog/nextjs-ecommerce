@@ -45,6 +45,7 @@ model User {
   role          ROLES     @default(USER)
   accounts      Account[]
   sessions      Session[]
+  product       Product[]
   createdAt     DateTime? @default(now())
   updatedAt     DateTime? @updatedAt
 }
@@ -61,4 +62,29 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Product {
+  id              String    @id @default(cuid())
+  userId          String
+  brand           String
+  title           String
+  category        String
+  section         String
+  subSection      String
+  metaDescription String
+  description     String
+  images          String[]
+  oldPrice        Float
+  newPrice        Float
+  countInStock    Int
+  sold            Int       @default(0)
+  slug            String
+  rating          Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime? @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([title, brand, category, section, slug, subSection])
 }
