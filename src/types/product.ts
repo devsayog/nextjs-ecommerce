@@ -31,6 +31,18 @@ const common = {
       message: 'Please select valid subsection',
     }),
 }
+export const productByIdSchema = z.object({
+  id: z.string(),
+})
+export const productUpdateSchema = z.object({
+  description: z.string(),
+  images: z.string().url().array(),
+  sold: z.number().default(0),
+  rating: z.number().default(0),
+  id: z.string(),
+  slug: z.string(),
+  ...common,
+})
 
 export const productFormSchema = z.object({ ...common })
 export const productSchema = z.object({

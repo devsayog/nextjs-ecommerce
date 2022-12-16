@@ -1,8 +1,13 @@
 import { Prisma } from '@prisma/client'
 import { TRPCError } from '@trpc/server'
 import slugify from 'slugify'
+import { z } from 'zod'
 
-import { productSchema } from '@/types/product'
+import {
+  productByIdSchema,
+  productSchema,
+  productUpdateSchema,
+} from '@/types/product'
 
 import { prisma } from '../db/client'
 import { protectedSuperAdminProcedure, publicProcedure, router } from '../trpc'
@@ -30,7 +35,7 @@ export const productRouter = router({
           message: 'Only 5 images are supported',
         })
       }
-      const product = await prisma.product.create({
+      return prisma.product.create({
         data: {
           ...input,
           slug: slugify(input.title),
@@ -39,9 +44,36 @@ export const productRouter = router({
           },
         },
       })
-      return product
     }),
   dashboardList: publicProcedure.query(async () => {
-    return prisma.product.findMany({ select: adminProduct })
+    return prisma.product.findMany({
+      orderBy: [{ createdAt: 'desc' }],
+      select: adminProduct,
+    })
   }),
+  getById: publicProcedure.input(productByIdSchema).query(async ({ input }) => {
+    const product = await prisma.product.findUnique({ where: { id: input.id } })
+    if (!product) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: 'Product not found',
+      })
+    }
+    return product
+  }),
+  update: protectedSuperAdminProcedure
+    .input(productUpdateSchema)
+    .mutation(async ({ input }) => {
+      const product = await prisma.product.update({
+        where: { id: input.id },
+        data: { ...input },
+      })
+      return product
+    }),
+  deleteById: protectedSuperAdminProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ input }) => {
+      await prisma.product.delete({ where: { id: input.id } })
+      return { message: 'Product deleted' }
+    }),
 })

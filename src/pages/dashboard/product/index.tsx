@@ -3,6 +3,7 @@ import type { ColumnDef } from '@tanstack/react-table'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { Fragment, useMemo } from 'react'
+import { toast } from 'react-hot-toast'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 
 import { AdminLayout } from '@/components/common/layout/AdminLayout'
@@ -26,6 +27,9 @@ export type Product = {
 export default function Index() {
   const router = useRouter()
   const productList = trpc.product.dashboardList.useQuery()
+  const deleteProduct = trpc.product.deleteById.useMutation()
+  const utils = trpc.useContext()
+
   const columns = useMemo<ColumnDef<Product>[]>(
     () => [
       {
@@ -138,6 +142,20 @@ export default function Index() {
                               : 'text-gray-900 dark:text-gray-200',
                             'group flex w-full items-center rounded-md p-2 text-sm'
                           )}
+                          disabled={deleteProduct.isLoading}
+                          onClick={() =>
+                            deleteProduct.mutate(
+                              { id: props.row.original.id },
+                              {
+                                onSuccess() {
+                                  toast.success(
+                                    `${props.row.original.title} deleted!!`
+                                  )
+                                  utils.product.dashboardList.invalidate()
+                                },
+                              }
+                            )
+                          }
                         >
                           Delete
                         </button>

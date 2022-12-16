@@ -2,6 +2,7 @@
 import 'react-quill/dist/quill.snow.css'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import type { Product } from '@prisma/client'
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -27,7 +28,12 @@ import { Dropzone } from '../common/Dropzone'
 
 const ReactQuill = dynamic(import('react-quill'), { ssr: false })
 
-export function Productform() {
+interface ProductFormProps extends Product {
+  isEditMode: boolean
+}
+
+export function Productform(props: Partial<ProductFormProps>) {
+  const { images, id, isEditMode, slug, sold, rating } = props
   const {
     register,
     handleSubmit,
@@ -36,14 +42,16 @@ export function Productform() {
     formState: { errors, isSubmitting },
   } = useForm<ProductFormSchemaType>({
     resolver: zodResolver(productFormSchema),
+    defaultValues: { ...props },
   })
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState(props.description || '')
   const [values, setValues] = useState<UploadSchema>({
-    images: [],
+    images: images || [],
     disabled: false,
     error: '',
   })
   const addProduct = trpc.product.add.useMutation()
+  const updateProduct = trpc.product.update.useMutation()
   function resetForm() {
     setValues({ images: [], disabled: false, error: '' })
     setValue('')
@@ -55,19 +63,38 @@ export function Productform() {
       toast.error('Upload an Image')
       return
     }
-    await addProduct.mutate(
-      {
-        ...val,
-        images: values.images,
-        description: value || '',
-      },
-      {
-        onSuccess() {
-          toast.success('Produced added.')
-          resetForm()
+    if (isEditMode) {
+      await updateProduct.mutate(
+        {
+          ...val,
+          images: values.images,
+          id: id || '',
+          description: value,
+          slug: slug || '',
+          sold,
+          rating,
         },
-      }
-    )
+        {
+          onSuccess() {
+            toast.success('Product updated successfully')
+          },
+        }
+      )
+    } else {
+      await addProduct.mutate(
+        {
+          ...val,
+          images: values.images,
+          description: value || '',
+        },
+        {
+          onSuccess() {
+            toast.success('Produced added.')
+            resetForm()
+          },
+        }
+      )
+    }
   }
 
   const [cat, sec] = watch(['category', 'section'])
@@ -185,13 +212,20 @@ export function Productform() {
         />
       </div>
       <div className="flex justify-end gap-4">
-        <CancelButton
-          click={resetForm}
-          disabled={addProduct.isLoading || values.disabled || isSubmitting}
-        />
+        {!isEditMode ? (
+          <CancelButton
+            click={resetForm}
+            disabled={addProduct.isLoading || values.disabled || isSubmitting}
+          />
+        ) : null}
         <SubmitButton
-          text="Submit"
-          disabled={addProduct.isLoading || values.disabled || isSubmitting}
+          text={isEditMode ? 'Update' : 'Submit'}
+          disabled={
+            addProduct.isLoading ||
+            values.disabled ||
+            isSubmitting ||
+            updateProduct.isLoading
+          }
         />
       </div>
     </form>
