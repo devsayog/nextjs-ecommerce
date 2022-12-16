@@ -1,10 +1,24 @@
+import { Prisma } from '@prisma/client'
 import { TRPCError } from '@trpc/server'
 import slugify from 'slugify'
 
 import { productSchema } from '@/types/product'
 
 import { prisma } from '../db/client'
-import { protectedSuperAdminProcedure, router } from '../trpc'
+import { protectedSuperAdminProcedure, publicProcedure, router } from '../trpc'
+
+const adminProduct = Prisma.validator<Prisma.ProductSelect>()({
+  id: true,
+  title: true,
+  brand: true,
+  category: true,
+  countInStock: true,
+  images: true,
+  newPrice: true,
+  oldPrice: true,
+  section: true,
+  subSection: true,
+})
 
 export const productRouter = router({
   add: protectedSuperAdminProcedure
@@ -27,4 +41,7 @@ export const productRouter = router({
       })
       return product
     }),
+  dashboardList: publicProcedure.query(async () => {
+    return prisma.product.findMany({ select: adminProduct })
+  }),
 })

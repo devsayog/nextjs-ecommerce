@@ -21,6 +21,18 @@
   .section {
     @apply px-2 py-8 sm:py-6 md:px-4 xl:px-6 lg:py-10 2xl:py-12;
   }
+  .table {
+    @apply min-w-full ring ring-gray-300/10 dark:ring-gray-700/10 text-left;
+  }
+  .table__head {
+    @apply bg-gray-300 dark:bg-gray-800 text-sm font-bold tracking-wider dark:text-gray-300;
+  }
+  .table__body {
+    @apply divide-y dark:divide-gray-800 divide-gray-200;
+  }
+  .table__row-body {
+    @apply capitalize text-sm dark:text-gray-300 transition dark:even:bg-slate-800/40 dark:hover:bg-slate-800/70 md:text-sm even:bg-gray-100 hover:bg-gray-300/70;
+  }
 }
 
 .quillContainer {
