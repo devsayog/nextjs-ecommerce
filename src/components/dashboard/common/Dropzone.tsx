@@ -38,7 +38,6 @@ export function Dropzone({ maxImages, values, setValues }: DropzoneProps) {
       acceptedFiles.map((file) => {
         setValues((prev) => ({ ...prev, disabled: true, error: '' }))
         if (values.images.length >= maxImages) {
-          console.log(values.images)
           return setValues((prev) => ({
             ...prev,
             disabled: false,
