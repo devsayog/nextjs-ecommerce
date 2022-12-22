@@ -53,3 +53,27 @@ export const productSchema = z.object({
   ...common,
 })
 export type ProductFormSchemaType = z.infer<typeof productFormSchema>
+
+export const getProductSchema = z.object({
+  limit: z.number().optional(),
+  cursor: z.string().nullish(),
+  category: z
+    .string({ invalid_type_error: 'Please select valid category' })
+    .refine((val) => category.map((c) => c).includes(val as any), {
+      message: 'Please select valid category',
+    })
+    .optional(),
+  section: z
+    .string({ invalid_type_error: 'Please select valid section' })
+    .refine((val) => section.map((c) => c).includes(val as any), {
+      message: 'Please select valid section',
+    })
+    .optional(),
+  subSection: z
+    .string({ invalid_type_error: 'Please select valid subsection' })
+    .refine((val) => subSection.map((c) => c).includes(val as any), {
+      message: 'Please select valid subsection',
+    })
+    .array()
+    .optional(),
+})

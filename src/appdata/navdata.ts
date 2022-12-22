@@ -189,18 +189,18 @@ export type SectionType<T, K, U> =
       name: Section
       items: Items<U>[]
     }
-type WomenCategory = {
+export type WomenCategory = {
   name: Category
   featured: { name: string; href: string; imageSrc: string; imageAlt: string }[]
   sections: SectionType<WomenClothing, WomenShoes, WomenAccessories>[]
 }
 
-type MenCategory = {
+export type MenCategory = {
   name: Category
   featured: { name: string; href: string; imageSrc: string; imageAlt: string }[]
   sections: SectionType<MenClothing, MenShoes, MenAccessories>[]
 }
-type KidsCategory = {
+export type KidsCategory = {
   name: Category
   featured: { name: string; href: string; imageSrc: string; imageAlt: string }[]
   sections: SectionType<KidsClothing, KidsShoes, KidsAccessories>[]
