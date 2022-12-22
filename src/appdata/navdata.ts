@@ -216,13 +216,13 @@ export const womenCategory: WomenCategory = {
   featured: [
     {
       name: 'New Arrivals',
-      href: `women/${generateSlug('new arrivals')}`,
+      href: `${generateSlug('new arrivals')}`,
       imageSrc: '/women.jpg',
       imageAlt: 'Latest Women Dress.',
     },
     {
       name: 'Most sold products',
-      href: `women/${generateSlug('most sold products')}`,
+      href: `${generateSlug('most sold products')}`,
       imageSrc: '/womenSelling.webp',
       imageAlt: 'Top selling women dress.',
     },
@@ -256,13 +256,13 @@ export const menCategory: MenCategory = {
   featured: [
     {
       name: 'New Arrivals',
-      href: `men/${generateSlug('new arrivals')}`,
+      href: `${generateSlug('new arrivals')}`,
       imageSrc: '/men.jpg',
       imageAlt: 'Latest Men dress.',
     },
     {
       name: 'Most sold products',
-      href: `men/${generateSlug('most sold products')}`,
+      href: `${generateSlug('most sold products')}`,
       imageSrc: '/menSelling.jpg',
       imageAlt: 'Top Selling Men Dress.',
     },
@@ -296,13 +296,13 @@ export const kidsCategory: KidsCategory = {
   featured: [
     {
       name: 'New Arrivals',
-      href: `kids/${generateSlug('new arrivals')}`,
+      href: `${generateSlug('new arrivals')}`,
       imageSrc: '/kids.jpg',
       imageAlt: 'Latest Kids dress',
     },
     {
       name: 'Most sold products',
-      href: `kids/${generateSlug('most sold products')}`,
+      href: `${generateSlug('most sold products')}`,
       imageSrc: '/kidSelling.jpg',
       imageAlt: 'Top selling kids dress',
     },

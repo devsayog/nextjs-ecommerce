@@ -122,7 +122,7 @@ export function Navbar() {
                                 />
                               </div>
                               <Link
-                                href={item.href}
+                                href={`/${category.name}/${item.href}`}
                                 className="mt-6 block font-medium capitalize text-gray-900 dark:text-gray-300"
                               >
                                 <span
@@ -266,7 +266,7 @@ export function Navbar() {
                                           />
                                         </div>
                                         <Link
-                                          href={item.href}
+                                          href={`/${category.name}/${item.href}`}
                                           className="mt-6 block font-medium capitalize text-gray-900 dark:text-gray-300"
                                         >
                                           <span
