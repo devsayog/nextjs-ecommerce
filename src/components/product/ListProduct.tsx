@@ -13,12 +13,14 @@ type ListProductProps = {
   handleOpen: () => void
   values: string[]
   category?: Category
+  mostSold?: boolean
 }
 export function ListProduct({
   title,
   handleOpen,
   values,
   category,
+  mostSold,
 }: ListProductProps) {
   const { ref, inView } = useInView()
   const { isLoading, isError, data, error, fetchNextPage, hasNextPage } =
@@ -26,6 +28,7 @@ export function ListProduct({
       {
         category,
         subSection: values,
+        mostSold,
       },
       { getNextPageParam: (lastPage) => lastPage.nextId ?? false }
     )

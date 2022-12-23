@@ -88,14 +88,28 @@ export const productRouter = router({
       const cursor = input.cursor || ''
       const skip = cursor !== '' ? 1 : 0
       const cursorObj = cursor === '' ? undefined : { id: cursor }
+      const orderBy:
+        | Prisma.Enumerable<Prisma.ProductOrderByWithRelationInput>
+        | undefined = []
+      if (input.mostSold) {
+        orderBy.push({ sold: 'desc' })
+      } else {
+        orderBy.push({ createdAt: 'desc' })
+      }
       const obj: Prisma.ProductFindManyArgs = {
         select: adminProduct,
         take: limit,
         skip,
         cursor: cursorObj,
-        orderBy: {
-          createdAt: 'desc',
-        },
+        // orderBy: {
+        //   createdAt: 'desc',
+        //   sold: input.mostSold ? 'desc' : undefined,
+        // },
+        // orderBy: [
+        //   { sold: input.mostSold ? 'desc' : undefined },
+        //   { createdAt: input.mostSold ? undefined : 'desc' },
+        // ],
+        orderBy,
       }
       if (input.category) {
         obj.where = {

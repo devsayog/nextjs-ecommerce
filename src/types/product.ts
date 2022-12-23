@@ -55,6 +55,7 @@ export const productSchema = z.object({
 export type ProductFormSchemaType = z.infer<typeof productFormSchema>
 
 export const getProductSchema = z.object({
+  mostSold: z.boolean().optional(),
   limit: z.number().optional(),
   cursor: z.string().nullish(),
   category: z

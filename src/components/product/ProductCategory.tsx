@@ -16,10 +16,12 @@ import { SidebarModal } from './SidebarModal'
 type ProductCategoryProps = {
   categoryList: MenCategory | WomenCategory | KidsCategory
   category: Category
+  mostSold?: boolean
 }
 export function ProductCategory({
   category,
   categoryList,
+  mostSold,
 }: ProductCategoryProps) {
   const [values, setValues] = useState<string[]>([])
   const [isOpen, setIsOpen] = useState(false)
@@ -46,6 +48,7 @@ export function ProductCategory({
           values={values}
         />
         <ListProduct
+          mostSold={mostSold}
           values={values}
           handleOpen={handleOpen}
           category={category}
