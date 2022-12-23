@@ -32,7 +32,7 @@ export default function Example() {
             in stock.
           </p>
           <Link
-            href="/"
+            href="/products/new-arrivals"
             className="mt-8 inline-block rounded-full bg-blue-900 px-6 py-3 text-center font-medium capitalize leading-6 text-white shadow transition hover:bg-blue-800 hover:shadow-lg focus:outline-none focus:ring-2 dark:bg-blue-700 dark:hover:bg-blue-900"
           >
             Shop New Arrivals

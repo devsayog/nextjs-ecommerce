@@ -1,24 +1,18 @@
 import { createProxySSGHelpers } from '@trpc/react-query/ssg'
-import type {
-  GetServerSidePropsContext,
-  InferGetServerSidePropsType,
-} from 'next'
+import type { GetServerSidePropsContext } from 'next'
 import superjson from 'superjson'
 
-import { CATEGORY_NEW_ARRIVAL_LIMIT } from '@/appdata/constants'
+import { PRODUCTS_NEW_ARRIVAL_LIMIT } from '@/appdata/constants'
 import { UserLayout } from '@/components/common/layout/UserLayout'
 import { BasicProduct } from '@/components/product/BasicProduct'
 import { createContext } from '@/server/context'
 import { appRouter } from '@/server/router/_app'
 import { trpc } from '@/utils/trpc'
 
-export default function NewArrivals({
-  category,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function NewArrivals() {
   const { data, error, isError, isLoading } =
     trpc.product.getAllProduct.useQuery({
-      category,
-      limit: CATEGORY_NEW_ARRIVAL_LIMIT,
+      limit: PRODUCTS_NEW_ARRIVAL_LIMIT,
     })
   return (
     <UserLayout>
@@ -27,7 +21,7 @@ export default function NewArrivals({
           id="page-title"
           className="text-2xl font-extrabold capitalize tracking-wider"
         >
-          {category} new arrival
+          new arrival
         </h2>
         {isLoading ? <p>Loading...</p> : null}
         {isError ? <p>{error.message}</p> : null}
@@ -44,13 +38,7 @@ export default function NewArrivals({
 }
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const { req, res, params } = ctx
-  const category = params?.category || ''
-  if (category !== 'men' && category !== 'women' && category !== 'kids') {
-    return {
-      notFound: true,
-    }
-  }
+  const { req, res } = ctx
 
   const ssg = createProxySSGHelpers({
     router: appRouter,
@@ -58,14 +46,12 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     transformer: superjson,
   })
   await ssg.product.getAllProduct.fetch({
-    category,
-    limit: CATEGORY_NEW_ARRIVAL_LIMIT,
+    limit: PRODUCTS_NEW_ARRIVAL_LIMIT,
   })
 
   return {
     props: {
       trpcState: ssg.dehydrate(),
-      category,
     },
   }
 }

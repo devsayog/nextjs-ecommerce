@@ -24,6 +24,7 @@ const adminProduct = Prisma.validator<Prisma.ProductSelect>()({
   oldPrice: true,
   section: true,
   subSection: true,
+  slug: true,
 })
 
 export const productRouter = router({
