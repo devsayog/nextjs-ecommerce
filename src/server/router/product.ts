@@ -102,14 +102,6 @@ export const productRouter = router({
         take: limit,
         skip,
         cursor: cursorObj,
-        // orderBy: {
-        //   createdAt: 'desc',
-        //   sold: input.mostSold ? 'desc' : undefined,
-        // },
-        // orderBy: [
-        //   { sold: input.mostSold ? 'desc' : undefined },
-        //   { createdAt: input.mostSold ? undefined : 'desc' },
-        // ],
         orderBy,
       }
       if (input.category) {
@@ -131,5 +123,23 @@ export const productRouter = router({
         products,
         nextId: products.length === limit ? products[limit - 1].id : undefined,
       }
+    }),
+  productDescription: publicProcedure
+    .input(
+      z.object({
+        slug: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const product = await ctx.prisma.product.findFirst({
+        where: { slug: input.slug },
+      })
+      if (!product) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Product not found',
+        })
+      }
+      return product
     }),
 })
