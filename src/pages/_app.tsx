@@ -5,6 +5,7 @@ import type { Session } from 'next-auth'
 import { SessionProvider } from 'next-auth/react'
 import { Toaster } from 'react-hot-toast'
 
+import { CartContextProvider } from '@/context/CartContext'
 import { trpc } from '@/utils/trpc'
 
 const App: AppType<{ session: Session | null }> = ({
@@ -13,12 +14,14 @@ const App: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <Toaster
-        toastOptions={{
-          className: 'background',
-        }}
-      />
-      <Component {...pageProps} />
+      <CartContextProvider>
+        <Toaster
+          toastOptions={{
+            className: 'background',
+          }}
+        />
+        <Component {...pageProps} />
+      </CartContextProvider>
     </SessionProvider>
   )
 }

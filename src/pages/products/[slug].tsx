@@ -9,6 +9,7 @@ import { MdStar } from 'react-icons/md'
 import superjson from 'superjson'
 
 import { UserLayout } from '@/components/common/layout/UserLayout'
+import { useCartContext } from '@/context/CartContext'
 import { createContext } from '@/server/context'
 import { appRouter } from '@/server/router/_app'
 import { classNames } from '@/utils/classNames'
@@ -18,12 +19,24 @@ import { trpc } from '@/utils/trpc'
 export default function Example(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) {
+  const { addCartItem } = useCartContext()
   const { data, isLoading, isError, error } =
     trpc.product.productDescription.useQuery({
       slug: props.slug,
     })
   if (!data) {
     return
+  }
+  function handleCartItemAdd() {
+    if (!data) return
+    addCartItem({
+      id: data.id,
+      title: data.title,
+      price: data.newPrice,
+      images: data.images,
+      brand: data.brand,
+      slug: data.slug,
+    })
   }
   return (
     <UserLayout>
@@ -136,6 +149,7 @@ export default function Example(
                 <div className="mt-2 flex">
                   <button
                     disabled={data.countInStock <= 0}
+                    onClick={handleCartItemAdd}
                     type="submit"
                     className="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-rose-600 py-3 px-8 text-base font-medium capitalize text-white hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"
                   >

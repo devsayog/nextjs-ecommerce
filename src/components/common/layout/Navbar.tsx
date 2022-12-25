@@ -19,6 +19,7 @@ import { ROLES } from '@/types/enum'
 import { classNames } from '@/utils/classNames'
 import { generateKey } from '@/utils/generateKey'
 
+import { Cart } from '../Cart'
 import { Account } from './Account'
 import { AdminDrawer } from './AdminDrawer'
 import { ModeToggle } from './ModeToggle'
@@ -31,6 +32,14 @@ export function Navbar() {
   const [isAdminDrawerOpen, setAdminDrawerOpen] = useState(false)
   const [showSignIn, setShowSignIn] = useState(false)
   const [open, setOpen] = useState(false)
+  const [isCartOpen, setCartOpen] = useState(false)
+
+  function handleCartClose() {
+    setCartOpen(false)
+  }
+  function handleCartOpen() {
+    setCartOpen(true)
+  }
   function closeAdminDrawer() {
     setAdminDrawerOpen(false)
   }
@@ -369,7 +378,11 @@ export function Navbar() {
               </Account>
             </li>
             <li>
-              <button type="button" className="navIcons">
+              <button
+                onClick={handleCartOpen}
+                type="button"
+                className="navIcons"
+              >
                 <span className="sr-only">Open Cart</span>
                 <AiOutlineShoppingCart className="h-6 w-6" />
               </button>
@@ -402,6 +415,7 @@ export function Navbar() {
         open={isAdminDrawerOpen}
         handleChangeDrawer={closeAdminDrawer}
       />
+      <Cart handleCartClose={handleCartClose} isCartOpen={isCartOpen} />
     </>
   )
 }
