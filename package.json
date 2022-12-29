@@ -23,6 +23,7 @@
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.9",
     "eslint": "8.28.0",
+    "micro": "^10.0.1",
     "next": "13.0.5",
     "next-auth": "^4.17.0",
     "nodemailer": "^6.8.0",
@@ -35,6 +36,7 @@
     "react-intersection-observer": "^9.4.1",
     "react-quill": "^2.0.0",
     "slugify": "^1.6.5",
+    "stripe": "^11.5.0",
     "superjson": "^1.11.0",
     "typescript": "4.9.3",
     "zod": "^3.19.1"

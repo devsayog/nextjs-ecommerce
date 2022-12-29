@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Address" ALTER COLUMN "postalCode" SET DATA TYPE TEXT,
+ALTER COLUMN "mobileNumber" SET DATA TYPE TEXT;

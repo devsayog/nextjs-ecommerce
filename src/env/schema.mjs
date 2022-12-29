@@ -16,6 +16,9 @@ export const serverSchema = z.object({
   SMTP_USER: z.string(),
   SMTP_PASSWORD: z.string(),
   SMTP_FROM: z.string().email(),
+  STRIPE_PRIVATE_KEY: z.string(),
+  CLIENT_URL: z.string().url(),
+  WEB_HOOK_SECRET: z.string(),
 })
 export const clientSchema = z.object({
   // NEXT_PUBLIC_API: z.string().url()

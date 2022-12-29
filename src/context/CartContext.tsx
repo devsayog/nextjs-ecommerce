@@ -26,6 +26,7 @@ type CartContextProps = {
   addCartItem: (v: CartItemProps) => void
   removeCartItem: (v: CartItemProps) => void
   deleteItemFromCart: (v: CartItemProps) => void
+  clearCart: () => void
   subTotal: () => number
 }
 const CartContext = createContext<CartContextProps | undefined>(undefined)
@@ -44,6 +45,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
   const [cartItems, setCartItems] = useState<CartItem[]>(
     getCartItemFromLs() || []
   )
+
   function setCartItemInLs(items: CartItemProps[]) {
     if (typeof window === 'undefined') return
     return localStorage.setItem(LS_KEY, JSON.stringify(items))
@@ -67,7 +69,11 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     },
     [cartItems]
   )
-
+  const clearCart = useCallback(() => {
+    if (typeof window === 'undefined') return
+    setCartItems([])
+    localStorage.removeItem(LS_KEY)
+  }, [])
   const removeCartItem = useCallback(
     (item: CartItemProps) => {
       const existingCartItem = cartItems.find((c) => c.id === item.id)
@@ -108,8 +114,16 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
       addCartItem,
       cartItems,
       subTotal,
+      clearCart,
     }),
-    [addCartItem, cartItems, deleteItemFromCart, removeCartItem, subTotal]
+    [
+      addCartItem,
+      cartItems,
+      deleteItemFromCart,
+      removeCartItem,
+      subTotal,
+      clearCart,
+    ]
   )
 
   return <CartContext.Provider value={values}>{children}</CartContext.Provider>

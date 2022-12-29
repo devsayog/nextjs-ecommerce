@@ -48,6 +48,8 @@ model User {
   product       Product[]
   createdAt     DateTime? @default(now())
   updatedAt     DateTime? @updatedAt
+  Address       Address[]
+  Orders        Orders[]
 }
 
 enum ROLES {
@@ -62,6 +64,45 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Address {
+  id           String    @id @default(cuid())
+  address      String
+  email        String
+  postalCode   String
+  fullName     String
+  mobileNumber String
+  landMark     String?
+  province     String
+  city         String
+  area         String
+  userId       String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime? @updatedAt
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Orders {
+  id             String         @id @default(cuid())
+  userId         String
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  city           String?
+  country        String?
+  addressLine1   String?
+  addressLine2   String?
+  postalCode     String?
+  email          String?
+  name           String?
+  phone          String?
+  deliveryStatus DeliveryStatus @default(PENDING)
+  shippingCharge Int
+  items          Json[]
+  totalAmount    Int
+  paymentIntent  String
+  customerId     String
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime?      @updatedAt
 }
 
 model Product {
@@ -87,4 +128,11 @@ model Product {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([title, brand, category, section, slug, subSection])
+}
+
+enum DeliveryStatus {
+  PENDING
+  SHIPPING
+  SUCCESS
+  CANCELED
 }
