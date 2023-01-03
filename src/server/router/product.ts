@@ -26,6 +26,23 @@ const adminProduct = Prisma.validator<Prisma.ProductSelect>()({
   subSection: true,
   slug: true,
 })
+const returnProduct = Prisma.validator<Prisma.ProductSelect>()({
+  brand: true,
+  category: true,
+  countInStock: true,
+  description: true,
+  id: true,
+  images: true,
+  metaDescription: true,
+  newPrice: true,
+  oldPrice: true,
+  rating: true,
+  section: true,
+  slug: true,
+  sold: true,
+  subSection: true,
+  title: true,
+})
 
 export const productRouter = router({
   add: protectedSuperAdminProcedure
@@ -133,6 +150,25 @@ export const productRouter = router({
     .query(async ({ input, ctx }) => {
       const product = await ctx.prisma.product.findFirst({
         where: { slug: input.slug },
+        select: {
+          ...returnProduct,
+          review: {
+            orderBy: {
+              createdAt: 'desc',
+            },
+            select: {
+              id: true,
+              message: true,
+              createdAt: true,
+              rating: true,
+              user: {
+                select: {
+                  email: true,
+                },
+              },
+            },
+          },
+        },
       })
       if (!product) {
         throw new TRPCError({

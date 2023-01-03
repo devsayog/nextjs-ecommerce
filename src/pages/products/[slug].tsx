@@ -27,6 +27,7 @@ export default function Example(
   if (!data) {
     return
   }
+  console.log(data)
   function handleCartItemAdd() {
     if (!data) return
     addCartItem({
@@ -166,6 +167,63 @@ export default function Example(
                   />
                 </div>
               </div>
+              <article className="px-4 py-5">
+                <h3 className="text-lg font-medium tracking-wider md:text-xl">
+                  Rating
+                </h3>
+                {data.review.length < 1 ? (
+                  <p className="my-4 font-medium tracking-wider">No review</p>
+                ) : null}
+                {data.review.map((review, reviewIdx) => (
+                  <div
+                    key={review.id}
+                    className="flex space-x-4 text-sm text-gray-500"
+                  >
+                    <div className="flex-none py-5">
+                      <div className="relative h-10 w-10 rounded-full bg-gray-100">
+                        <Image
+                          fill
+                          src="/unknown.webp"
+                          alt="user profile picture"
+                          className="rounded-full"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      className={classNames(
+                        reviewIdx === 0
+                          ? ''
+                          : 'border-t border-gray-300 dark:border-gray-700',
+                        'flex-1 py-5'
+                      )}
+                    >
+                      <h3 className="font-medium">{review.user.email}</h3>
+                      <p>
+                        <time dateTime={review.createdAt.toISOString()}>
+                          {review.createdAt.toISOString().substring(0, 10)}
+                        </time>
+                      </p>
+
+                      <div className="mt-4 flex items-center">
+                        {[0, 1, 2, 3, 4].map((rating) => (
+                          <MdStar
+                            key={rating}
+                            className={classNames(
+                              review.rating > rating
+                                ? 'text-yellow-500'
+                                : 'text-gray-300',
+                              'h-5 w-5 flex-shrink-0'
+                            )}
+                            aria-hidden="true"
+                          />
+                        ))}
+                      </div>
+                      <p className="sr-only">{review.rating} out of 5 stars</p>
+                      <p>{review.message}</p>
+                    </div>
+                  </div>
+                ))}
+              </article>
             </div>
           </div>
         ) : null}
