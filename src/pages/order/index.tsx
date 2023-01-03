@@ -3,9 +3,12 @@ import type { GetServerSidePropsContext } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { getSession } from 'next-auth/react'
+import { useState } from 'react'
 import superjson from 'superjson'
 
 import { UserLayout } from '@/components/common/layout/UserLayout'
+import { Ratingdialog } from '@/components/rating/Ratingdialog'
+import { Ratingform } from '@/components/rating/Ratingform'
 import { createContext } from '@/server/context'
 import { appRouter } from '@/server/router/_app'
 import { trpc } from '@/utils/trpc'
@@ -19,8 +22,17 @@ type Item = {
   slug: string
 }
 export default function Order() {
+  const [ratingDialogOpen, setRatingDialogOpen] = useState(false)
+  const [productId, setProductId] = useState('')
+  function handleClose() {
+    setProductId('')
+    setRatingDialogOpen(false)
+  }
+  function handleOpen(id: string) {
+    setProductId(id)
+    setRatingDialogOpen(true)
+  }
   const { data, error, isError, isLoading } = trpc.order.getOrders.useQuery()
-  console.log(data)
   return (
     <UserLayout>
       <div className="section mx-auto max-w-7xl pt-20">
@@ -91,8 +103,9 @@ export default function Order() {
                                     ${itm.price}
                                   </p>
                                   <button
+                                    onClick={() => handleOpen(itm.id)}
                                     type="button"
-                                    className="rounded-md bg-pink-600 py-1 px-6 text-white shadow transition hover:bg-pink-400 dark:bg-pink-400 dark:hover:bg-pink-600"
+                                    className="rounded-md bg-indigo-600 py-1 px-6 text-white shadow transition hover:bg-indigo-400 dark:bg-indigo-400 dark:hover:bg-indigo-600"
                                   >
                                     Review
                                   </button>
@@ -120,6 +133,13 @@ export default function Order() {
           </div>
         </section>
       </div>
+      <Ratingdialog
+        handleClose={handleClose}
+        open={ratingDialogOpen}
+        heading="Review"
+      >
+        <Ratingform productId={productId} handleClose={handleClose} />
+      </Ratingdialog>
     </UserLayout>
   )
 }

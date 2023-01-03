@@ -48,7 +48,7 @@ model User {
   product       Product[]
   createdAt     DateTime? @default(now())
   updatedAt     DateTime? @updatedAt
-  Address       Address[]
+  review        Review[]
   Orders        Orders[]
 }
 
@@ -66,21 +66,16 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Address {
-  id           String    @id @default(cuid())
-  address      String
-  email        String
-  postalCode   String
-  fullName     String
-  mobileNumber String
-  landMark     String?
-  province     String
-  city         String
-  area         String
-  userId       String
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime? @updatedAt
-  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+model Review {
+  id        String    @id @default(cuid())
+  message   String
+  rating    Int
+  productId String
+  userId    String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  product   Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Orders {
@@ -118,6 +113,7 @@ model Product {
   images          String[]
   oldPrice        Float
   newPrice        Float
+  review          Review[]
   countInStock    Int
   sold            Int       @default(0)
   slug            String

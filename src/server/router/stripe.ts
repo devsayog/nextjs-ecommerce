@@ -32,12 +32,8 @@ export const stripeRouter = router({
             })
           }
           cartItems.push({
-            // name: product.title,
-            // image: product.images[0],
-            // price: product.newPrice,
             quantity: item.quantity,
             id: product.id,
-            // slug: product.slug,
           })
           lineItems.push({
             price_data: {
