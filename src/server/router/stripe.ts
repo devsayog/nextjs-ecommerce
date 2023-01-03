@@ -42,7 +42,7 @@ export const stripeRouter = router({
                 name: product.title,
                 images: product.images,
               },
-              unit_amount: product.newPrice,
+              unit_amount: product.newPrice * 100,
             },
             quantity: item.quantity,
           })

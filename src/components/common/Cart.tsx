@@ -77,7 +77,7 @@ export function Cart({ isCartOpen, handleCartClose }: CartProps) {
                   leaveFrom="translate-x-0"
                   leaveTo="translate-x-full"
                 >
-                  <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
+                  <Dialog.Panel className="pointer-events-auto h-screen w-screen max-w-md">
                     <div className="flex h-full flex-col bg-white shadow-xl dark:bg-slate-900">
                       <div className="sticky top-0 flex items-start justify-between bg-white py-6 px-4  dark:bg-slate-900 sm:px-6">
                         <Dialog.Title className="text-lg font-medium">
@@ -105,7 +105,7 @@ export function Cart({ isCartOpen, handleCartClose }: CartProps) {
                         </div>
                       ) : (
                         <>
-                          <div className="flex-1 overflow-y-auto py-6 px-4 sm:px-6">
+                          <div className="max-h-[47vh] flex-1 overflow-y-auto py-6 px-4 sm:px-6">
                             <div className="mt-8">
                               <div className="flow-root">
                                 <ul

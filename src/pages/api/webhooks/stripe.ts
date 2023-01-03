@@ -61,6 +61,14 @@ export default async (
               price: product.newPrice,
               quantity: item.quantity,
             })
+            // eslint-disable-next-line no-await-in-loop
+            await prisma.product.update({
+              where: { id: item.id },
+              data: {
+                sold: product.sold + item.quantity,
+                countInStock: product.countInStock - item.quantity,
+              },
+            })
           }
           await prisma.orders.create({
             data: {
