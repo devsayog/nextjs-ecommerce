@@ -169,12 +169,14 @@ export default function Index() {
         ),
       },
     ],
-    [router]
+    [deleteProduct, router, utils.product.dashboardList]
   )
   return (
     <AdminLayout>
       <section className="section" aria-labelledby="page-title">
-        <h1 className="heading1">Product list</h1>
+        <h1 id="page-title" className="heading1">
+          Product list
+        </h1>
 
         <div className="w-full p-4">
           {productList.isLoading && <p>Loading . . .</p>}

@@ -1,0 +1,1 @@
+export const STATUSES = ['PENDING', 'SHIPPING', 'SUCCESS', 'CANCELED']
