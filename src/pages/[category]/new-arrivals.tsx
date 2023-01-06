@@ -7,6 +7,7 @@ import superjson from 'superjson'
 
 import { CATEGORY_NEW_ARRIVAL_LIMIT } from '@/appdata/constants'
 import { UserLayout } from '@/components/common/layout/UserLayout'
+import { Meta } from '@/components/common/Meta'
 import { BasicProduct } from '@/components/product/BasicProduct'
 import { createContext } from '@/server/context'
 import { appRouter } from '@/server/router/_app'
@@ -22,6 +23,7 @@ export default function NewArrivals({
     })
   return (
     <UserLayout>
+      <Meta pageTitle={`${category} - New Arrivals`} />
       <section aria-labelledby="page-title" className="section pt-24">
         <h2
           id="page-title"

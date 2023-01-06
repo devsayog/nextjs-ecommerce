@@ -5,6 +5,7 @@ import { toast } from 'react-hot-toast'
 
 import { ROLES } from '@/appdata/list'
 import { AdminLayout } from '@/components/common/layout/AdminLayout'
+import { Meta } from '@/components/common/Meta'
 import { SelectInput } from '@/components/common/Select'
 import type { GetUser } from '@/types/user'
 import { getUser } from '@/types/user'
@@ -46,6 +47,7 @@ export default function Example() {
   }
   return (
     <AdminLayout>
+      <Meta pageTitle="User description" />
       <section className="section" aria-labelledby="page-title">
         <h1 id="page-title" className="heading1">
           User: {router.query.id}

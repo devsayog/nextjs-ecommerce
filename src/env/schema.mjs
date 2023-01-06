@@ -25,9 +25,11 @@ export const clientSchema = z.object({
   NEXT_PUBLIC_CLOUDINARY_KEY: z.string(),
   NEXT_PUBLIC_CLOUD_NAME: z.string(),
   NEXT_PUBLIC_PRESET: z.string(),
+  NEXT_PUBLIC_CLIENT_URL: z.string(),
 })
 export const clientEnv = {
   NEXT_PUBLIC_CLOUDINARY_KEY: process.env.NEXT_PUBLIC_CLOUDINARY_KEY,
   NEXT_PUBLIC_CLOUD_NAME: process.env.NEXT_PUBLIC_CLOUD_NAME,
   NEXT_PUBLIC_PRESET: process.env.NEXT_PUBLIC_PRESET,
+  NEXT_PUBLIC_CLIENT_URL: process.env.NEXT_PUBLIC_CLIENT_URL,
 }

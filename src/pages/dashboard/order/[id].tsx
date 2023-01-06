@@ -8,6 +8,7 @@ import { z } from 'zod'
 
 import { STATUSES } from '@/appdata/list'
 import { AdminLayout } from '@/components/common/layout/AdminLayout'
+import { Meta } from '@/components/common/Meta'
 import { SelectInput } from '@/components/common/Select'
 import { SubmitButton } from '@/components/dashboard/common/Buttons'
 import { trpc } from '@/utils/trpc'
@@ -60,6 +61,7 @@ export default function Example() {
   }
   return (
     <AdminLayout>
+      <Meta pageTitle="Order description" />
       <section className="section" aria-labelledby="page-title">
         <h1 id="page-title" className="heading1">
           Order: {router.query.id}

@@ -1,10 +1,12 @@
 import Link from 'next/link'
 
 import { UserLayout } from './layout/UserLayout'
+import { Meta } from './Meta'
 
 export function Error() {
   return (
     <UserLayout>
+      <Meta pageTitle="404 Error" />
       <div className="flex h-full w-full flex-col items-center justify-center space-y-16 space-x-8 pt-20 lg:flex-row lg:space-y-0 2xl:space-x-0">
         <div className="flex w-full flex-col items-center justify-center text-center lg:w-1/2 lg:px-2 xl:px-0">
           <p className="text-7xl font-bold tracking-wider text-gray-300 md:text-8xl lg:text-9xl">

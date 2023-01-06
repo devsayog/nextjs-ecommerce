@@ -2,10 +2,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { UserLayout } from '@/components/common/layout/UserLayout'
+import { Meta } from '@/components/common/Meta'
 
 export default function Example() {
   return (
     <UserLayout>
+      <Meta />
       {/* Hero section */}
       <div className="relative h-screen bg-gray-900">
         {/* Decorative image and overlay */}

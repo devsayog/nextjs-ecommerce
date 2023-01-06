@@ -7,6 +7,7 @@ import superjson from 'superjson'
 
 import type { Category } from '@/appdata/navdata'
 import { kidsCategory, menCategory, womenCategory } from '@/appdata/navdata'
+import { Meta } from '@/components/common/Meta'
 import { ProductCategory } from '@/components/product/ProductCategory'
 import { createContext } from '@/server/context'
 import { appRouter } from '@/server/router/_app'
@@ -19,10 +20,13 @@ export default function CategoryPage({
     return null
   }
   return (
-    <ProductCategory
-      category={category as Category}
-      categoryList={categoryList}
-    />
+    <>
+      <Meta pageTitle={category} />
+      <ProductCategory
+        category={category as Category}
+        categoryList={categoryList}
+      />
+    </>
   )
 }
 

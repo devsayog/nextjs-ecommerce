@@ -9,6 +9,7 @@ import { MdStar } from 'react-icons/md'
 import superjson from 'superjson'
 
 import { UserLayout } from '@/components/common/layout/UserLayout'
+import { Meta } from '@/components/common/Meta'
 import { useCartContext } from '@/context/CartContext'
 import { createContext } from '@/server/context'
 import { appRouter } from '@/server/router/_app'
@@ -27,7 +28,6 @@ export default function Example(
   if (!data) {
     return
   }
-  console.log(data)
   function handleCartItemAdd() {
     if (!data) return
     addCartItem({
@@ -41,6 +41,7 @@ export default function Example(
   }
   return (
     <UserLayout>
+      <Meta description={data.metaDescription} pageTitle={data.title} />
       <section className="mx-auto mt-24 max-w-7xl sm:px-6 sm:pt-16 lg:px-8">
         {isLoading ? <p>Loading...</p> : null}
         {isError ? <p className="text-red-500">{error.message}</p> : null}

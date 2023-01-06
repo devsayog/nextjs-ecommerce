@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { useEffect } from 'react'
 
 import { UserLayout } from '@/components/common/layout/UserLayout'
+import { Meta } from '@/components/common/Meta'
 import { useCartContext } from '@/context/CartContext'
 
 export default function Success() {
@@ -11,6 +12,7 @@ export default function Success() {
   }, [clearCart])
   return (
     <UserLayout>
+      <Meta />
       <section className="grid h-screen w-full place-content-center">
         <h2 className="mb-4 text-xl md:text-2xl">
           Your order have been placed successfully.

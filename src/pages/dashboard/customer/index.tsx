@@ -5,6 +5,7 @@ import { useMemo } from 'react'
 import { AiFillEdit } from 'react-icons/ai'
 
 import { AdminLayout } from '@/components/common/layout/AdminLayout'
+import { Meta } from '@/components/common/Meta'
 import { Table } from '@/components/dashboard/common/Table'
 import { trpc } from '@/utils/trpc'
 
@@ -88,6 +89,7 @@ export default function Example() {
   )
   return (
     <AdminLayout>
+      <Meta pageTitle="User list" />
       <section className="section" aria-labelledby="page-title">
         <h1 id="page-title" className="heading1">
           User list

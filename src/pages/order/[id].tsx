@@ -9,6 +9,7 @@ import { useState } from 'react'
 import superjson from 'superjson'
 
 import { UserLayout } from '@/components/common/layout/UserLayout'
+import { Meta } from '@/components/common/Meta'
 import { Ratingdialog } from '@/components/rating/Ratingdialog'
 import { Ratingform } from '@/components/rating/Ratingform'
 import { createContext } from '@/server/context'
@@ -34,6 +35,7 @@ export default function OrderDetails(
     })
   return (
     <UserLayout>
+      <Meta pageTitle="Order Details" />
       <div className="mx-auto max-w-7xl">
         <section aria-labelledby="page-title" className="section pt-24">
           <h2

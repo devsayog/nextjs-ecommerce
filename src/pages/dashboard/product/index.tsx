@@ -7,6 +7,7 @@ import { toast } from 'react-hot-toast'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 
 import { AdminLayout } from '@/components/common/layout/AdminLayout'
+import { Meta } from '@/components/common/Meta'
 import { Table } from '@/components/dashboard/common/Table'
 import { classNames } from '@/utils/classNames'
 import { trpc } from '@/utils/trpc'
@@ -173,6 +174,7 @@ export default function Index() {
   )
   return (
     <AdminLayout>
+      <Meta pageTitle="Product List" />
       <section className="section" aria-labelledby="page-title">
         <h1 id="page-title" className="heading1">
           Product list
