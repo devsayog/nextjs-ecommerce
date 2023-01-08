@@ -1,5 +1,6 @@
 import { router } from '../trpc'
 import { authRouter } from './auth'
+import { dashboardRouter } from './dashboard'
 import { orderRouter } from './order'
 import { productRouter } from './product'
 import { reviewRouter } from './review'
@@ -13,5 +14,6 @@ export const appRouter = router({
   order: orderRouter,
   review: reviewRouter,
   user: userRouter,
+  dashboard: dashboardRouter,
 })
 export type AppRouter = typeof appRouter
