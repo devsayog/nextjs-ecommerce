@@ -7,6 +7,7 @@ import superjson from 'superjson'
 
 import { CATEGORY_NEW_ARRIVAL_LIMIT } from '@/appdata/constants'
 import { UserLayout } from '@/components/common/layout/UserLayout'
+import { Loader } from '@/components/common/Loader'
 import { Meta } from '@/components/common/Meta'
 import { BasicProduct } from '@/components/product/BasicProduct'
 import { createContext } from '@/server/context'
@@ -31,8 +32,8 @@ export default function NewArrivals({
         >
           {category} new arrival
         </h2>
-        {isLoading ? <p>Loading...</p> : null}
-        {isError ? <p>{error.message}</p> : null}
+        {isLoading ? <Loader /> : null}
+        {isError ? <p className="text-red-500">{error.message}</p> : null}
         <div className="mx-auto mt-6 grid max-w-7xl grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
           {data
             ? data.products.map((product) => (

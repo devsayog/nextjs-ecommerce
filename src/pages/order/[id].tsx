@@ -9,6 +9,7 @@ import { useState } from 'react'
 import superjson from 'superjson'
 
 import { UserLayout } from '@/components/common/layout/UserLayout'
+import { Loader } from '@/components/common/Loader'
 import { Meta } from '@/components/common/Meta'
 import { Ratingdialog } from '@/components/rating/Ratingdialog'
 import { Ratingform } from '@/components/rating/Ratingform'
@@ -44,7 +45,7 @@ export default function OrderDetails(
           >
             Order details
           </h2>
-          {isLoading ? <p>Loading...</p> : null}
+          {isLoading ? <Loader /> : null}
           {isError ? <p className="text-red-500">{error.message}</p> : null}
           {data ? (
             <div className="mx-auto my-4 max-w-xl rounded border border-gray-300 dark:border-gray-700">

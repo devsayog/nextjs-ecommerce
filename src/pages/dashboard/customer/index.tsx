@@ -5,6 +5,7 @@ import { useMemo } from 'react'
 import { AiFillEdit } from 'react-icons/ai'
 
 import { AdminLayout } from '@/components/common/layout/AdminLayout'
+import { Loader } from '@/components/common/Loader'
 import { Meta } from '@/components/common/Meta'
 import { Table } from '@/components/dashboard/common/Table'
 import { trpc } from '@/utils/trpc'
@@ -95,8 +96,10 @@ export default function Example() {
           User list
         </h1>
         <div className="w-full p-4">
-          {userList.isLoading && <p>Loading . . .</p>}
-          {userList.error && <p>{userList.error.message}</p>}
+          {userList.isLoading && <Loader />}
+          {userList.error && (
+            <p className="text-red-500">{userList.error.message}</p>
+          )}
           {!userList.isError && !userList.isLoading && (
             <Table columns={columns} data={userList.data || []} />
           )}

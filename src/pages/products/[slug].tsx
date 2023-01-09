@@ -9,6 +9,7 @@ import { MdStar } from 'react-icons/md'
 import superjson from 'superjson'
 
 import { UserLayout } from '@/components/common/layout/UserLayout'
+import { Loader } from '@/components/common/Loader'
 import { Meta } from '@/components/common/Meta'
 import { useCartContext } from '@/context/CartContext'
 import { createContext } from '@/server/context'
@@ -43,7 +44,7 @@ export default function Example(
     <UserLayout>
       <Meta description={data.metaDescription} pageTitle={data.title} />
       <section className="mx-auto mt-24 max-w-7xl sm:px-6 sm:pt-16 lg:px-8">
-        {isLoading ? <p>Loading...</p> : null}
+        {isLoading ? <Loader /> : null}
         {isError ? <p className="text-red-500">{error.message}</p> : null}
         {data ? (
           <div className="mx-auto max-w-2xl lg:max-w-none">

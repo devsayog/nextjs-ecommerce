@@ -8,6 +8,7 @@ import { z } from 'zod'
 
 import { STATUSES } from '@/appdata/list'
 import { AdminLayout } from '@/components/common/layout/AdminLayout'
+import { Loader } from '@/components/common/Loader'
 import { Meta } from '@/components/common/Meta'
 import { SelectInput } from '@/components/common/Select'
 import { SubmitButton } from '@/components/dashboard/common/Buttons'
@@ -66,7 +67,7 @@ export default function Example() {
         <h1 id="page-title" className="heading1">
           Order: {router.query.id}
         </h1>
-        {orderDetails.isLoading && <p>Loading . . .</p>}
+        {orderDetails.isLoading && <Loader />}
         {orderDetails.error && (
           <p className="text-red-500">{orderDetails.error.message}</p>
         )}

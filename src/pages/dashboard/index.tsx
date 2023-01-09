@@ -15,6 +15,7 @@ import { MdCategory, MdOutlineAttachMoney } from 'react-icons/md'
 import { SiSalesforce } from 'react-icons/si'
 
 import { AdminLayout } from '@/components/common/layout/AdminLayout'
+import { Loader } from '@/components/common/Loader'
 import { Meta } from '@/components/common/Meta'
 import { OverviewCard } from '@/components/dashboard/common/Overviewcard'
 import { TableContainer } from '@/components/dashboard/common/Tablecontainer'
@@ -79,105 +80,121 @@ export default function Dashboard() {
     <AdminLayout>
       <Meta pageTitle="Dashboard overview" />
       <section className="section mx-auto max-w-6xl">
+        {(totalSales.isLoading ||
+          totalEarnings.isLoading ||
+          totalOrders.isLoading ||
+          totalProducts.isLoading ||
+          products.isLoading) && <Loader />}
         <h1 className="mb-4 text-lg sm:text-xl lg:text-2xl 2xl:text-3xl">
           Overview
         </h1>
-        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4">
-          <OverviewCard
-            title="Total earnings"
-            money
-            Icon={MdOutlineAttachMoney}
-            total={totalEarnings.data ? totalEarnings.data / 100 : 0}
-          />
-          <OverviewCard
-            Icon={SiSalesforce}
-            title="Total sales"
-            total={totalSales.data || 0}
-          />
-          <OverviewCard
-            Icon={ImCart}
-            title="Total products"
-            total={totalProducts.data || 0}
-          />
-          <OverviewCard
-            Icon={MdCategory}
-            title="Total orders"
-            total={totalOrders.data || 0}
-          />
-        </div>
-        <div className="my-4 md:my-6 xl:my-8">
-          <h2 className="text-2xl font-extrabold capitalize tracking-wider">
-            Top selling products
-          </h2>
-          <div className="w-full px-4">
-            <TableContainer>
-              <table className="table">
-                <thead className="table__head">
-                  {getHeaderGroups().map((headerGroup) => (
-                    <tr key={headerGroup.id}>
-                      {headerGroup.headers.map((header) => (
-                        <th className="p-3" key={header.id}>
-                          <div
-                            className={`flex min-w-[70px] items-center space-x-2 ${
-                              header.column.getCanSort() ? 'cursor-pointer' : ''
-                            }`}
-                            onClick={header.column.getToggleSortingHandler()}
-                          >
-                            {flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                            {{
-                              asc: (
-                                <>
-                                  <AiOutlineArrowUp
-                                    aria-hidden="true"
-                                    className="text-lg text-green-400"
-                                  />
-                                  <p className="sr-only">
-                                    Sorted by descending order
-                                  </p>
-                                </>
-                              ),
-                              desc: (
-                                <>
-                                  <AiOutlineArrowDown
-                                    aria-hidden="true"
-                                    className="text-lg text-red-400"
-                                  />
-                                  <p className="sr-only">
-                                    Sorted by ascending order
-                                  </p>
-                                </>
-                              ),
-                            }[header.column.getIsSorted() as string] ?? null}
-                          </div>
-                        </th>
+        {totalSales.isSuccess ||
+        totalEarnings.isSuccess ||
+        totalOrders.isSuccess ||
+        totalProducts.isSuccess ||
+        products.isSuccess ? (
+          <>
+            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4">
+              <OverviewCard
+                title="Total earnings"
+                money
+                Icon={MdOutlineAttachMoney}
+                total={totalEarnings.data ? totalEarnings.data / 100 : 0}
+              />
+              <OverviewCard
+                Icon={SiSalesforce}
+                title="Total sales"
+                total={totalSales.data || 0}
+              />
+              <OverviewCard
+                Icon={ImCart}
+                title="Total products"
+                total={totalProducts.data || 0}
+              />
+              <OverviewCard
+                Icon={MdCategory}
+                title="Total orders"
+                total={totalOrders.data || 0}
+              />
+            </div>
+            <div className="my-4 md:my-6 xl:my-8">
+              <h2 className="text-2xl font-extrabold capitalize tracking-wider">
+                Top selling products
+              </h2>
+              <div className="w-full px-4">
+                <TableContainer>
+                  <table className="table">
+                    <thead className="table__head">
+                      {getHeaderGroups().map((headerGroup) => (
+                        <tr key={headerGroup.id}>
+                          {headerGroup.headers.map((header) => (
+                            <th className="p-3" key={header.id}>
+                              <div
+                                className={`flex min-w-[70px] items-center space-x-2 ${
+                                  header.column.getCanSort()
+                                    ? 'cursor-pointer'
+                                    : ''
+                                }`}
+                                onClick={header.column.getToggleSortingHandler()}
+                              >
+                                {flexRender(
+                                  header.column.columnDef.header,
+                                  header.getContext()
+                                )}
+                                {{
+                                  asc: (
+                                    <>
+                                      <AiOutlineArrowUp
+                                        aria-hidden="true"
+                                        className="text-lg text-green-400"
+                                      />
+                                      <p className="sr-only">
+                                        Sorted by descending order
+                                      </p>
+                                    </>
+                                  ),
+                                  desc: (
+                                    <>
+                                      <AiOutlineArrowDown
+                                        aria-hidden="true"
+                                        className="text-lg text-red-400"
+                                      />
+                                      <p className="sr-only">
+                                        Sorted by ascending order
+                                      </p>
+                                    </>
+                                  ),
+                                }[header.column.getIsSorted() as string] ??
+                                  null}
+                              </div>
+                            </th>
+                          ))}
+                        </tr>
                       ))}
-                    </tr>
-                  ))}
-                </thead>
-                <tbody className="table__body">
-                  {getRowModel().rows.map((row) => (
-                    <tr key={row.id} className="table__row-body">
-                      {row.getVisibleCells().map((cell) => (
-                        <td
-                          key={cell.id}
-                          className="whitespace-nowrap px-3 py-1"
-                        >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </td>
+                    </thead>
+                    <tbody className="table__body">
+                      {getRowModel().rows.map((row) => (
+                        <tr key={row.id} className="table__row-body">
+                          {row.getVisibleCells().map((cell) => (
+                            <td
+                              key={cell.id}
+                              className="whitespace-nowrap px-3 py-1"
+                            >
+                              {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                              )}
+                            </td>
+                          ))}
+                        </tr>
                       ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </TableContainer>
-          </div>
-        </div>
+                    </tbody>
+                  </table>
+                </TableContainer>
+              </div>
+            </div>
+          </>
+        ) : null}
       </section>
     </AdminLayout>
   )

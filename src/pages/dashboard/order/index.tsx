@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import { AiFillEdit } from 'react-icons/ai'
 
 import { AdminLayout } from '@/components/common/layout/AdminLayout'
+import { Loader } from '@/components/common/Loader'
 import { Meta } from '@/components/common/Meta'
 import { Table } from '@/components/dashboard/common/Table'
 import type { Order } from '@/types/order'
@@ -111,8 +112,10 @@ export default function Example() {
         </h1>
 
         <div className="w-full p-4">
-          {orderList.isLoading && <p>Loading . . .</p>}
-          {orderList.error && <p>{orderList.error.message}</p>}
+          {orderList.isLoading && <Loader />}
+          {orderList.error && (
+            <p className="text-red-500">{orderList.error.message}</p>
+          )}
           {!orderList.isError && !orderList.isLoading && (
             <Table columns={columns} data={(orderList.data as any) || []} />
           )}

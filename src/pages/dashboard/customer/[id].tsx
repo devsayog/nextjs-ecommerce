@@ -5,6 +5,7 @@ import { toast } from 'react-hot-toast'
 
 import { ROLES } from '@/appdata/list'
 import { AdminLayout } from '@/components/common/layout/AdminLayout'
+import { Loader } from '@/components/common/Loader'
 import { Meta } from '@/components/common/Meta'
 import { SelectInput } from '@/components/common/Select'
 import type { GetUser } from '@/types/user'
@@ -52,7 +53,7 @@ export default function Example() {
         <h1 id="page-title" className="heading1">
           User: {router.query.id}
         </h1>
-        {userDetails.isLoading && <p>Loading . . .</p>}
+        {userDetails.isLoading && <Loader />}
         {userDetails.error && (
           <p className="text-red-500">{userDetails.error.message}</p>
         )}

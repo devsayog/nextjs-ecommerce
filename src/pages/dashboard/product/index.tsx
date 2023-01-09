@@ -7,6 +7,7 @@ import { toast } from 'react-hot-toast'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 
 import { AdminLayout } from '@/components/common/layout/AdminLayout'
+import { Loader } from '@/components/common/Loader'
 import { Meta } from '@/components/common/Meta'
 import { Table } from '@/components/dashboard/common/Table'
 import { classNames } from '@/utils/classNames'
@@ -181,8 +182,10 @@ export default function Index() {
         </h1>
 
         <div className="w-full p-4">
-          {productList.isLoading && <p>Loading . . .</p>}
-          {productList.error && <p>{productList.error.message}</p>}
+          {productList.isLoading && <Loader />}
+          {productList.error && (
+            <p className="text-red-500">{productList.error.message}</p>
+          )}
           {!productList.isError && !productList.isLoading && (
             <Table columns={columns} data={productList.data || []} />
           )}

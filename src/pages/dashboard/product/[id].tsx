@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import type { ParsedUrlQuery } from 'querystring'
 
 import { AdminLayout } from '@/components/common/layout/AdminLayout'
+import { Loader } from '@/components/common/Loader'
 import { Meta } from '@/components/common/Meta'
 import { Productform } from '@/components/dashboard/product/Productform'
 import { trpc } from '@/utils/trpc'
@@ -18,7 +19,10 @@ export default function Id() {
       <Meta pageTitle={product.data?.title} />
       <section className="section" aria-labelledby="page-title">
         <h1 className="heading1">Product Description</h1>
-        {product.isLoading && <p>LOADING...</p>}
+        {product.isLoading && <Loader />}
+        {product.isError && (
+          <p className="text-red-500">{product.error.message}</p>
+        )}
         <div className="py-2 lg:py-4">
           {product.isSuccess && (
             <Productform {...product.data} isEditMode={true} />
