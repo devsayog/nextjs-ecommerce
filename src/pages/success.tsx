@@ -1,4 +1,6 @@
+import type { GetServerSidePropsContext } from 'next'
 import Link from 'next/link'
+import { getSession } from 'next-auth/react'
 import { useEffect } from 'react'
 
 import { UserLayout } from '@/components/common/layout/UserLayout'
@@ -26,4 +28,21 @@ export default function Success() {
       </section>
     </UserLayout>
   )
+}
+
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const session = await getSession(ctx)
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+  return {
+    props: {
+      redirect: true,
+    },
+  }
 }

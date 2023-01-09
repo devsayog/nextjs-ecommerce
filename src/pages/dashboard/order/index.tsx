@@ -1,5 +1,7 @@
 import type { ColumnDef } from '@tanstack/react-table'
+import type { GetServerSidePropsContext } from 'next'
 import Link from 'next/link'
+import { getSession } from 'next-auth/react'
 import { useMemo } from 'react'
 import { AiFillEdit } from 'react-icons/ai'
 
@@ -123,4 +125,21 @@ export default function Example() {
       </section>
     </AdminLayout>
   )
+}
+
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const session = await getSession(ctx)
+  if (!session || session?.user?.role === 'USER') {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+  return {
+    props: {
+      redirect: true,
+    },
+  }
 }

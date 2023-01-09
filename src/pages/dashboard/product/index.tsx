@@ -1,7 +1,9 @@
 import { Menu, Transition } from '@headlessui/react'
 import type { ColumnDef } from '@tanstack/react-table'
+import type { GetServerSidePropsContext } from 'next'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { getSession } from 'next-auth/react'
 import { Fragment, useMemo } from 'react'
 import { toast } from 'react-hot-toast'
 import { BsThreeDotsVertical } from 'react-icons/bs'
@@ -193,4 +195,21 @@ export default function Index() {
       </section>
     </AdminLayout>
   )
+}
+
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const session = await getSession(ctx)
+  if (!session || session?.user?.role === 'USER') {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+  return {
+    props: {
+      redirect: true,
+    },
+  }
 }

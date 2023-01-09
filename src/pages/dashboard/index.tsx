@@ -7,7 +7,9 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
+import type { GetServerSidePropsContext } from 'next'
 import Image from 'next/image'
+import { getSession } from 'next-auth/react'
 import { useState } from 'react'
 import { AiOutlineArrowDown, AiOutlineArrowUp } from 'react-icons/ai'
 import { ImCart } from 'react-icons/im'
@@ -198,4 +200,21 @@ export default function Dashboard() {
       </section>
     </AdminLayout>
   )
+}
+
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const session = await getSession(ctx)
+  if (!session || session?.user?.role === 'USER') {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+  return {
+    props: {
+      redirect: true,
+    },
+  }
 }

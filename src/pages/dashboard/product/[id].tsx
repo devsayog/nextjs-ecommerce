@@ -1,4 +1,6 @@
+import type { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
+import { getSession } from 'next-auth/react'
 import type { ParsedUrlQuery } from 'querystring'
 
 import { AdminLayout } from '@/components/common/layout/AdminLayout'
@@ -31,4 +33,21 @@ export default function Id() {
       </section>
     </AdminLayout>
   )
+}
+
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const session = await getSession(ctx)
+  if (!session || session?.user?.role === 'USER') {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+  return {
+    props: {
+      redirect: true,
+    },
+  }
 }

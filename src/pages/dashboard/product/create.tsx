@@ -1,3 +1,6 @@
+import type { GetServerSidePropsContext } from 'next'
+import { getSession } from 'next-auth/react'
+
 import { AdminLayout } from '@/components/common/layout/AdminLayout'
 import { Meta } from '@/components/common/Meta'
 import { Productform } from '@/components/dashboard/product/Productform'
@@ -12,4 +15,21 @@ export default function Create() {
       </section>
     </AdminLayout>
   )
+}
+
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const session = await getSession(ctx)
+  if (!session || session?.user?.role === 'USER') {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+  return {
+    props: {
+      redirect: true,
+    },
+  }
 }
