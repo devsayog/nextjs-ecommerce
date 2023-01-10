@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 
+import { Footer } from '../Footer'
 import { Navbar } from './Navbar'
 
 type UserLayoutProps = {
@@ -11,6 +12,7 @@ export function UserLayout({ children }: UserLayoutProps) {
     <>
       <Navbar />
       <main>{children}</main>
+      <Footer />
     </>
   )
 }
