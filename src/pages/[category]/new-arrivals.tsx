@@ -34,7 +34,7 @@ export default function NewArrivals({
         </h2>
         {isLoading ? <Loader /> : null}
         {isError ? <p className="text-red-500">{error.message}</p> : null}
-        <div className="mx-auto mt-6 grid max-w-7xl grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+        <div className="mx-auto mt-6 grid max-w-sm grid-cols-1 gap-y-10 gap-x-6 sm:max-w-7xl sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
           {data
             ? data.products.map((product) => (
                 <BasicProduct key={product.id} {...product} />
