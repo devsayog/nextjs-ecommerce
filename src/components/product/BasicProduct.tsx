@@ -21,7 +21,7 @@ export function BasicProduct(props: BasicProductProps) {
         <Image
           height={60}
           width={200}
-          src={props.images[0]}
+          src={props.images[0] || ''}
           alt={props.title}
           className="h-full w-full object-cover object-center lg:h-full lg:w-full"
         />

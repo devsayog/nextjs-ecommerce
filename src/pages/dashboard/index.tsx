@@ -34,7 +34,7 @@ const columns = [
           <Image
             className="rounded-full object-cover"
             alt={info.getValue()}
-            src={info.row.original.images[0]}
+            src={info.row.original.images[0] || ''}
             fill
           />
         </div>

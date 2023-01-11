@@ -136,9 +136,15 @@ export const productRouter = router({
         }
       }
       const products = await ctx.prisma.product.findMany(obj)
+      if (!products) {
+        throw new TRPCError({
+          message: 'Not found',
+          code: 'NOT_FOUND',
+        })
+      }
       return {
         products,
-        nextId: products.length === limit ? products[limit - 1].id : undefined,
+        nextId: products.length === limit ? products[limit - 1]?.id : undefined,
       }
     }),
   productDescription: publicProcedure

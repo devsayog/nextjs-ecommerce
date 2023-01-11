@@ -43,7 +43,7 @@ export default function Index() {
           <div className="flex items-center gap-2">
             <div className="relative h-24 w-24 bg-cover">
               <Image
-                src={props.row.original.images[0]}
+                src={props.row.original.images[0] || ''}
                 alt={props.row.original.title}
                 fill
                 sizes="(max-width: 768px) 100vw,

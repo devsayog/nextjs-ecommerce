@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import type { Dispatch, SetStateAction } from 'react'
+import type { FileError } from 'react-dropzone'
 import { useDropzone } from 'react-dropzone'
 import toast from 'react-hot-toast'
 import { AiOutlineCheckCircle } from 'react-icons/ai'
@@ -80,7 +81,7 @@ export function Dropzone({ maxImages, values, setValues }: DropzoneProps) {
     let text = ''
     fileRejections.map(({ errors }) => {
       if (errors.length <= 0) return null
-      const { code } = errors[0]
+      const { code } = errors[0] as FileError
       if (code === 'file-invalid-type') {
         text = 'Only Image is supported.'
       } else if (code === 'too-many-files') {
