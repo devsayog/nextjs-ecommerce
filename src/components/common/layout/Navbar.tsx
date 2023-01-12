@@ -4,10 +4,11 @@ import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { signOut, useSession } from 'next-auth/react'
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import {
   AiFillCloseCircle,
   AiOutlineMenu,
+  AiOutlineSearch,
   AiOutlineShoppingCart,
 } from 'react-icons/ai'
 import { FaShopify } from 'react-icons/fa'
@@ -20,6 +21,7 @@ import { classNames } from '@/utils/classNames'
 import { generateKey } from '@/utils/generateKey'
 
 import { Cart } from '../Cart'
+import { Searchpalette } from '../Searchpalette'
 import { Account } from './Account'
 import { AdminDrawer } from './AdminDrawer'
 import { ModeToggle } from './ModeToggle'
@@ -30,9 +32,21 @@ export function Navbar() {
   const loadingUser = status === 'loading'
   const [isSignInModalOpen, setSignInModalOpen] = useState(false)
   const [isAdminDrawerOpen, setAdminDrawerOpen] = useState(false)
+  const [searchPaletteOpen, setSearchPaletteOpen] = useState(false)
   const [showSignIn, setShowSignIn] = useState(false)
   const [open, setOpen] = useState(false)
   const [isCartOpen, setCartOpen] = useState(false)
+
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault()
+        setSearchPaletteOpen((prev) => !prev)
+      }
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [])
 
   function handleCartClose() {
     setCartOpen(false)
@@ -49,6 +63,10 @@ export function Navbar() {
   const router = useRouter()
   return (
     <>
+      <Searchpalette
+        isOpen={searchPaletteOpen}
+        handleClose={() => setSearchPaletteOpen(false)}
+      />
       {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
@@ -338,6 +356,20 @@ export function Navbar() {
           ) : null}
           {/* Buttons */}
           <ul className="flex items-center gap-1 md:gap-2 2xl:gap-4">
+            <li>
+              <button
+                className="flex items-center rounded-md border-2 border-indigo-500 py-1 px-3 text-sm opacity-80 shadow-lg transition hover:opacity-100 md:py-2 md:px-5"
+                onClick={() => setSearchPaletteOpen(true)}
+              >
+                <span className="md:hidden">Search</span>
+                <span className="sr-only">Search</span>
+                <span className="ml-1 hidden md:block">CTRL + K</span>
+                <AiOutlineSearch
+                  aria-hidden="true"
+                  className="ml-3 h-4 w-4 md:ml-5"
+                />
+              </button>
+            </li>
             <li>
               <Account>
                 {loadingUser ? (

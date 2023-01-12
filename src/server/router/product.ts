@@ -184,4 +184,37 @@ export const productRouter = router({
       }
       return product
     }),
+  search: publicProcedure
+    .input(
+      z.object({
+        query: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      return ctx.prisma.product.findMany({
+        where: {
+          OR: [
+            { brand: { contains: input.query, mode: 'insensitive' } },
+            { title: { contains: input.query, mode: 'insensitive' } },
+            { category: { contains: input.query, mode: 'insensitive' } },
+            { section: { contains: input.query, mode: 'insensitive' } },
+            { subSection: { contains: input.query, mode: 'insensitive' } },
+          ],
+        },
+        take: 5,
+        select: {
+          id: true,
+          title: true,
+          category: true,
+          slug: true,
+          section: true,
+          subSection: true,
+          images: true,
+          brand: true,
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+      })
+    }),
 })
