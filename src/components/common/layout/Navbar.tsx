@@ -398,6 +398,12 @@ export function Navbar() {
                         Dashboard
                       </Link>
                     )}
+                    <Link
+                      className="text-blue-500 hover:text-blue-800 hover:underline dark:text-blue-300"
+                      href="/order"
+                    >
+                      Order
+                    </Link>
                     <button
                       onClick={() => signOut()}
                       className="primaryBtn"
