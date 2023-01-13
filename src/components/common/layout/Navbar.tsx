@@ -16,6 +16,7 @@ import { FaShopify } from 'react-icons/fa'
 import { navigation } from '@/appdata/navdata'
 import { AuthDialog } from '@/components/auth/AuthDialog'
 import { SignupForm } from '@/components/auth/SignupForm'
+import { useCartContext } from '@/context/CartContext'
 import { ROLES } from '@/types/enum'
 import { classNames } from '@/utils/classNames'
 import { generateKey } from '@/utils/generateKey'
@@ -27,6 +28,7 @@ import { AdminDrawer } from './AdminDrawer'
 import { ModeToggle } from './ModeToggle'
 
 export function Navbar() {
+  const { totalItems } = useCartContext()
   const { data: session, status } = useSession()
   const user = session?.user
   const loadingUser = status === 'loading'
@@ -419,10 +421,15 @@ export function Navbar() {
               <button
                 onClick={handleCartOpen}
                 type="button"
-                className="navIcons"
+                className="navIcons relative"
               >
                 <span className="sr-only">Open Cart</span>
                 <AiOutlineShoppingCart className="h-6 w-6" />
+                {!totalItems ? null : (
+                  <span className="absolute -top-3 right-0 flex h-5 w-5 items-center justify-center rounded-full bg-gray-800 p-1 text-xs text-white dark:bg-gray-600">
+                    {totalItems}
+                  </span>
+                )}
               </button>
             </li>
             <li>

@@ -28,6 +28,7 @@ type CartContextProps = {
   deleteItemFromCart: (v: CartItemProps) => void
   clearCart: () => void
   subTotal: () => number
+  totalItems: number
 }
 const CartContext = createContext<CartContextProps | undefined>(undefined)
 CartContext.displayName = 'CartContext'
@@ -115,6 +116,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
       cartItems,
       subTotal,
       clearCart,
+      totalItems: cartItems.reduce((acc, cur) => cur.quantity + acc, 0),
     }),
     [
       addCartItem,

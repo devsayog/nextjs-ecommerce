@@ -5,6 +5,7 @@ import type {
   InferGetServerSidePropsType,
 } from 'next'
 import Image from 'next/image'
+import { toast } from 'react-hot-toast'
 import { MdStar } from 'react-icons/md'
 import superjson from 'superjson'
 
@@ -39,6 +40,7 @@ export default function Example(
       brand: data.brand,
       slug: data.slug,
     })
+    toast.success(`${data.title} added in cart.`)
   }
   return (
     <UserLayout>
